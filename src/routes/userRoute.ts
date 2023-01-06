@@ -1,10 +1,14 @@
-import { getUser } from "./../controllers/users/getUsers";
-import { register } from "../controllers/users/createAndLogin";
+import { login } from "./../controllers/users/createAndLogin";
+import { prisma } from "./../index";
 import express from "express";
 import { check } from "express-validator";
+import { register } from "../controllers/users/createAndLogin";
+import { getUser } from "./../controllers/users/getUsers";
 
 const userRouter = express.Router();
 userRouter.get("/register", getUser);
+
+userRouter.post("/login", login);
 
 userRouter.post(
   "/register",
@@ -14,16 +18,17 @@ userRouter.post(
       .isEmail()
       .normalizeEmail()
       .withMessage("Enter a valid email"),
+    check("email").custom(async (value) => {
+      const user = await prisma.user.findUnique({ where: { email: value } });
+      if (user) {
+        throw new Error("Email is taken");
+      }
+    }),
     check("password")
       .isLength({ min: 6 })
       .withMessage("Must be at least 5 char long")
       .matches(/\d/)
       .withMessage("Must contain number"),
-    check("password").custom((value, { req }) => {
-      if (value !== req.body.confirmPassword) {
-        throw new Error("password confirmation incorret");
-      }
-    }),
   ],
   register
 );

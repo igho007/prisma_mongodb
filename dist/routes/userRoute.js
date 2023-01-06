@@ -4,28 +4,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userRouter = void 0;
-const getUsers_1 = require("./../controllers/users/getUsers");
-const createAndLogin_1 = require("../controllers/users/createAndLogin");
+const createAndLogin_1 = require("./../controllers/users/createAndLogin");
+const index_1 = require("./../index");
 const express_1 = __importDefault(require("express"));
 const express_validator_1 = require("express-validator");
+const createAndLogin_2 = require("../controllers/users/createAndLogin");
+const getUsers_1 = require("./../controllers/users/getUsers");
 const userRouter = express_1.default.Router();
 exports.userRouter = userRouter;
 userRouter.get("/register", getUsers_1.getUser);
+userRouter.post("/login", createAndLogin_1.login);
 userRouter.post("/register", [
     (0, express_validator_1.check)("name").not().isEmpty().withMessage("Enter your name"),
     (0, express_validator_1.check)("email")
         .isEmail()
         .normalizeEmail()
         .withMessage("Enter a valid email"),
+    (0, express_validator_1.check)("email").custom(async (value) => {
+        const user = await index_1.prisma.user.findUnique({ where: { email: value } });
+        if (user) {
+            throw new Error("Email is taken");
+        }
+    }),
     (0, express_validator_1.check)("password")
         .isLength({ min: 6 })
         .withMessage("Must be at least 5 char long")
         .matches(/\d/)
         .withMessage("Must contain number"),
-    (0, express_validator_1.check)("password").custom((value, { req }) => {
-        if (value !== req.body.confirmPassword) {
-            throw new Error("password confirmation incorret");
-        }
-    }),
-], createAndLogin_1.register);
+], createAndLogin_2.register);
 //# sourceMappingURL=userRoute.js.map

@@ -1,10 +1,10 @@
-import { hash } from "bcryptjs";
+import { compare, hash } from "bcryptjs";
 import { Request, Response } from "express";
 import { validationResult } from "express-validator";
 import { url } from "gravatar";
 import { v4 } from "uuid";
-import { cookieToken } from "../../generateToken";
 import { prisma } from "../../index";
+import { generateToken } from "./../../generateToken";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -27,12 +27,32 @@ export const register = async (req: Request, res: Response) => {
       },
     });
 
-    cookieToken(user, res);
-    return res.json({
-      success: true,
-      user,
-    });
+    generateToken(user, res);
+    return res.status(200).json({ success: true, msg: "user registered" });
   } catch (error) {
     throw new Error(error);
+  }
+};
+
+export const login = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await prisma.user.findFirst({ where: { email } });
+    if (!user) {
+      return res
+        .status(400)
+        .json({ success: false, msg: "Invalid user/password" });
+    }
+    const isMatch = await compare(password, user!.password);
+    if (!isMatch) {
+      return res.status(400).json({
+        success: false,
+        msg: "invalid user/password",
+      });
+    }
+    return res.status(200).json({ success: true, msg: "user login" });
+  } catch (err) {
+    throw err;
   }
 };
