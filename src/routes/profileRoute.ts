@@ -1,8 +1,13 @@
 import {
+  AddEducation,
+  deleteEducation,
+  updateEducation,
+} from "./../controllers/profile/education";
+import {
   AddExperience,
   deleteExperience,
   updateExperience,
-} from "./../controllers/profile/createExpAndEdu";
+} from "../controllers/profile/experience";
 import {
   deleteProfileAndUser,
   getAllProfiles,
@@ -31,14 +36,25 @@ profileRouter.put(
   "/experience",
   [
     check("title", "Title is required").not().isEmpty(),
-    check("company", "Title company is required").not().isEmpty(),
+    check("company", "company is required").not().isEmpty(),
   ],
   AddExperience
 );
 
+profileRouter.put(
+  "/education",
+  [
+    check("school", "School is required").not().isEmpty(),
+    check("degree", "Degree is required").not().isEmpty(),
+  ],
+  AddEducation
+);
+
 profileRouter.put("/experience/:exp_id", updateExperience);
+profileRouter.put("/education/:exp_id", updateEducation);
 
 profileRouter.delete("/", deleteProfileAndUser);
 profileRouter.delete("/experience/:exp_id", deleteExperience);
+profileRouter.delete("/education/:exp_id", deleteEducation);
 
 export { profileRouter };

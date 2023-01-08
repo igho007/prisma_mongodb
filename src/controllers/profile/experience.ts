@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 import { v4 } from "uuid";
-import { prisma } from "./../../index";
+import { prisma } from "../../index";
 import { Request, Response } from "express";
 
 export const AddExperience = async (req: Request, res: Response) => {
