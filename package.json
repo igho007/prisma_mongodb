@@ -10,7 +10,7 @@
     "dev": "nodemon dist/index.js"
   },
   "dependencies": {
-    "@prisma/client": "^4.8.0",
+    "@prisma/client": "^4.8.1",
     "@types/gravatar": "^1.8.3",
     "avatar": "^0.1.0",
     "bcryptjs": "^2.4.3",

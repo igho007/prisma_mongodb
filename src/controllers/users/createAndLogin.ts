@@ -51,6 +51,7 @@ export const login = async (req: Request, res: Response) => {
         msg: "invalid user/password",
       });
     }
+    generateToken(user, res);
     return res.status(200).json({ success: true, msg: "user login" });
   } catch (err) {
     throw err;

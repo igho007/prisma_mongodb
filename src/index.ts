@@ -6,6 +6,7 @@ import dotEnv from "dotenv";
 
 import express, { Request, Response } from "express";
 import { verify } from "jsonwebtoken";
+import { profileRouter } from "./routes/profileRoute";
 
 declare global {
   namespace Express {
@@ -27,23 +28,20 @@ async function main() {
   // cookie parser middleware
   app.use(cookieParser());
 
-  app.use((req: Request, res: Response, next) => {
+  app.use((req: Request, _: Response, next) => {
     try {
       const token = req.cookies["token"];
+
       if (token) {
         const decodedToken = verify(token, process.env.JWT_SECRET as string);
         req.user = decodedToken;
-      } else {
-        res.status(400).json({
-          success: false,
-          message: "no token",
-        });
       }
     } catch {}
     next();
   });
 
-  app.use("/api", userRouter);
+  app.use("/api/user", userRouter);
+  app.use("/api/profile", profileRouter);
   app.get("/", (_, res) => {
     res.send("Hello");
   });

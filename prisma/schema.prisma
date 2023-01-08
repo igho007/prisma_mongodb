@@ -27,12 +27,13 @@ model Profile {
   company        String?
   website        String?
   location       String?
-  email          String?
+  email          String?      @unique
   skills         String[]
   status         String
   bio            String?
   githubusername String?
   experience     Experience[]
+  socials        Socials?
   user           User?        @relation(fields: [profileId], references: [id])
   profileId      String       @unique @db.ObjectId
   createdAt      String
@@ -57,4 +58,11 @@ type Experience {
   experienceId String
   current      Boolean?
   createdAt    String?
+}
+
+type Socials {
+  facebook String
+  youtube  String
+  twitter  String
+  linkedin String
 }

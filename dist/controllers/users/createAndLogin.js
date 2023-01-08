@@ -49,6 +49,7 @@ const login = async (req, res) => {
                 msg: "invalid user/password",
             });
         }
+        (0, generateToken_1.generateToken)(user, res);
         return res.status(200).json({ success: true, msg: "user login" });
     }
     catch (err) {
