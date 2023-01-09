@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.prisma = void 0;
+const postRoute_1 = require("./routes/postRoute");
 const userRoute_1 = require("./routes/userRoute");
 const client_1 = require("@prisma/client");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
@@ -31,6 +32,7 @@ async function main() {
     });
     app.use("/api/user", userRoute_1.userRouter);
     app.use("/api/profile", profileRoute_1.profileRouter);
+    app.use("/api/posts", postRoute_1.postRouter);
     app.get("/", (_, res) => {
         res.send("Hello");
     });

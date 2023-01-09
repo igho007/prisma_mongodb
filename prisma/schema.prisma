@@ -12,7 +12,7 @@ datasource db {
 
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  name      String?
+  name      String
   email     String   @unique
   password  String
   avatar    String
@@ -42,12 +42,27 @@ model Profile {
 }
 
 model Post {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  slug     String
-  title    String
-  body     String
-  postedBy User   @relation(fields: [postId], references: [id])
-  postId   String @db.ObjectId
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  avatar   String
+  text     String
+  name     String
+  likes    Likes[]
+  comments Comments[]
+  postedBy User       @relation(fields: [postId], references: [id])
+  postId   String     @db.ObjectId
+}
+
+type Likes {
+  name   String
+  userId String
+}
+
+type Comments {
+  name      String
+  text      String
+  avatar    String
+  commentBy String
+  createdAt String
 }
 
 type Experience {

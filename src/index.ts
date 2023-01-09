@@ -1,3 +1,4 @@
+import { postRouter } from "./routes/postRoute";
 import { userRouter } from "./routes/userRoute";
 import { PrismaClient } from "@prisma/client";
 
@@ -17,6 +18,7 @@ declare global {
 }
 
 dotEnv.config();
+
 export const prisma = new PrismaClient();
 
 async function main() {
@@ -42,6 +44,7 @@ async function main() {
 
   app.use("/api/user", userRouter);
   app.use("/api/profile", profileRouter);
+  app.use("/api/posts", postRouter);
   app.get("/", (_, res) => {
     res.send("Hello");
   });

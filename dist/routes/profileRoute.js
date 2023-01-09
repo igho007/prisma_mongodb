@@ -4,7 +4,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.profileRouter = void 0;
-const createExpAndEdu_1 = require("./../controllers/profile/createExpAndEdu");
+const education_1 = require("./../controllers/profile/education");
+const experience_1 = require("../controllers/profile/experience");
 const queryProfile_1 = require("./../controllers/profile/queryProfile");
 const express_validator_1 = require("express-validator");
 const profile_1 = require("./../controllers/profile/profile");
@@ -19,9 +20,15 @@ profileRouter.get("/me", queryProfile_1.getCurrentUserProfile);
 profileRouter.get("/profiles", queryProfile_1.getAllProfiles);
 profileRouter.put("/experience", [
     (0, express_validator_1.check)("title", "Title is required").not().isEmpty(),
-    (0, express_validator_1.check)("company", "Title company is required").not().isEmpty(),
-], createExpAndEdu_1.AddExperience);
-profileRouter.put("/experience/:exp_id", createExpAndEdu_1.updateExperience);
+    (0, express_validator_1.check)("company", "company is required").not().isEmpty(),
+], experience_1.AddExperience);
+profileRouter.put("/education", [
+    (0, express_validator_1.check)("school", "School is required").not().isEmpty(),
+    (0, express_validator_1.check)("degree", "Degree is required").not().isEmpty(),
+], education_1.AddEducation);
+profileRouter.put("/experience/:exp_id", experience_1.updateExperience);
+profileRouter.put("/education/:exp_id", education_1.updateEducation);
 profileRouter.delete("/", queryProfile_1.deleteProfileAndUser);
-profileRouter.delete("/experience/:exp_id", createExpAndEdu_1.deleteExperience);
+profileRouter.delete("/experience/:exp_id", experience_1.deleteExperience);
+profileRouter.delete("/education/:exp_id", education_1.deleteEducation);
 //# sourceMappingURL=profileRoute.js.map
