@@ -97,11 +97,11 @@ export const deleteEducation = async (req: Request, res: Response) => {
     .map((exp) => exp.educationId)
     .indexOf(req.params.exp_id);
 
-  const newExperience = profile.experience.splice(educationIndex, 1);
+  profile.education.splice(educationIndex, 1);
 
   await prisma.profile.update({
     where: { email: req.user.email },
-    data: { experience: [...newExperience] },
+    data: { education: [...profile.education] },
   });
   return res
     .status(200)

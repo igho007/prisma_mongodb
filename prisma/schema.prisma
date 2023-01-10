@@ -42,14 +42,16 @@ model Profile {
 }
 
 model Post {
-  id       String     @id @default(auto()) @map("_id") @db.ObjectId
-  avatar   String
-  text     String
-  name     String
-  likes    Likes[]
-  comments Comments[]
-  postedBy User       @relation(fields: [postId], references: [id])
-  postId   String     @db.ObjectId
+  id         String     @id @default(auto()) @map("_id") @db.ObjectId
+  avatar     String
+  text       String
+  name       String
+  likes      Likes[]
+  comments   Comments[]
+  postedBy   User       @relation(fields: [postId], references: [id])
+  postId     String     @db.ObjectId
+  postedById String     @unique
+  createdAt  String
 }
 
 type Likes {

@@ -87,10 +87,10 @@ const deleteExperience = async (req, res) => {
     const experienceIndex = profile.experience
         .map((exp) => exp.experienceId)
         .indexOf(req.params.exp_id);
-    const newExperience = profile.experience.splice(experienceIndex, 1);
+    profile.experience.splice(experienceIndex, 1);
     await index_1.prisma.profile.update({
         where: { email: req.user.email },
-        data: { experience: [...newExperience] },
+        data: { experience: [...profile.experience] },
     });
     return res
         .status(200)
