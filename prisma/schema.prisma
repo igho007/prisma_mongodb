@@ -63,7 +63,7 @@ type Comments {
   name      String
   text      String
   avatar    String
-  commentBy String
+  commentId String
   createdAt String
 }
 
