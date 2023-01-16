@@ -26,9 +26,16 @@ userRouter.post(
     }),
     check("password")
       .isLength({ min: 6 })
-      .withMessage("Must be at least 5 char long")
-      .matches(/\d/)
-      .withMessage("Must contain number"),
+      .withMessage("Must be at least 6 char long"),
+
+    check("confirmPassword").custom((value, { req }) => {
+      if (value !== req.body.password) {
+        console.log(req.body.confirmPassword);
+        throw new Error("password mismatch");
+      } else {
+        return true;
+      }
+    }),
   ],
   register
 );
