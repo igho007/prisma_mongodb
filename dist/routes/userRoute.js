@@ -12,7 +12,8 @@ const createAndLogin_2 = require("../controllers/users/createAndLogin");
 const getUsers_1 = require("./../controllers/users/getUsers");
 const userRouter = express_1.default.Router();
 exports.userRouter = userRouter;
-userRouter.get("/register", getUsers_1.getUser);
+userRouter.get("/users", getUsers_1.getUsers);
+userRouter.get("/auth-user", getUsers_1.getUser);
 userRouter.post("/login", createAndLogin_1.login);
 userRouter.post("/register", [
     (0, express_validator_1.check)("name").not().isEmpty().withMessage("Enter your name"),

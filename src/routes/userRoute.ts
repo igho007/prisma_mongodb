@@ -3,10 +3,11 @@ import { prisma } from "./../index";
 import express from "express";
 import { check } from "express-validator";
 import { register } from "../controllers/users/createAndLogin";
-import { getUser } from "./../controllers/users/getUsers";
+import { getUser, getUsers } from "./../controllers/users/getUsers";
 
 const userRouter = express.Router();
-userRouter.get("/register", getUser);
+userRouter.get("/users", getUsers);
+userRouter.get("/auth-user", getUser);
 
 userRouter.post("/login", login);
 
