@@ -27,8 +27,18 @@ export const register = async (req: Request, res: Response) => {
       },
     });
 
+    const displayUser = {
+      name: user!.name,
+      email: user!.email,
+      userId: user!.userId,
+      avatar: user!.avatar,
+      createdAt: user!.createdAt,
+    };
+
     generateToken(user, res);
-    return res.status(200).json({ success: true, msg: "user registered" });
+    return res
+      .status(200)
+      .json({ success: true, msg: "user registered", user: displayUser });
   } catch (error) {
     throw new Error(error);
   }
@@ -51,8 +61,17 @@ export const login = async (req: Request, res: Response) => {
         msg: "invalid user/password",
       });
     }
+    const displayUser = {
+      name: user!.name,
+      email: user!.email,
+      userId: user!.userId,
+      avatar: user!.avatar,
+      createdAt: user!.createdAt,
+    };
     generateToken(user, res);
-    return res.status(200).json({ success: true, msg: "user login" });
+    return res
+      .status(200)
+      .json({ success: true, msg: "user login", user: displayUser });
   } catch (err) {
     throw err;
   }
