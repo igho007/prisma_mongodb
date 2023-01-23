@@ -20,10 +20,12 @@ async function main() {
     app.use(express_1.default.urlencoded({ extended: true }));
     app.use((0, cookie_parser_1.default)());
     app.use((req, _, next) => {
+        console.log(req.headers["x-auth"]);
         try {
-            const token = req.cookies["token"];
+            const token = req.headers["x-auth"];
             if (token) {
                 const decodedToken = (0, jsonwebtoken_1.verify)(token, process.env.JWT_SECRET);
+                console.log(decodedToken);
                 req.user = decodedToken;
             }
         }

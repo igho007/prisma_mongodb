@@ -32,10 +32,8 @@ const register = async (req, res) => {
             avatar: user.avatar,
             createdAt: user.createdAt,
         };
-        (0, generateToken_1.generateToken)(user, res);
-        return res
-            .status(200)
-            .json({ success: true, msg: "user registered", user: displayUser });
+        const token = (0, generateToken_1.generateToken)(displayUser);
+        return res.json({ sucess: true, token });
     }
     catch (error) {
         throw new Error(error);
@@ -65,12 +63,11 @@ const login = async (req, res) => {
             avatar: user.avatar,
             createdAt: user.createdAt,
         };
-        (0, generateToken_1.generateToken)(user, res);
-        return res
-            .status(200)
-            .json({ success: true, msg: "user login", user: displayUser });
+        const token = (0, generateToken_1.generateToken)(displayUser);
+        return res.json({ sucess: true, token });
     }
     catch (err) {
+        console.log(err.response);
         throw err;
     }
 };

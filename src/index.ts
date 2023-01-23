@@ -31,11 +31,16 @@ async function main() {
   app.use(cookieParser());
 
   app.use((req: Request, _: Response, next) => {
+    console.log(req.headers["x-auth"]);
     try {
-      const token = req.cookies["token"];
+      const token = req.headers["x-auth"];
 
       if (token) {
-        const decodedToken = verify(token, process.env.JWT_SECRET as string);
+        const decodedToken = verify(
+          token as string,
+          process.env.JWT_SECRET as string
+        );
+        console.log(decodedToken);
         req.user = decodedToken;
       }
     } catch {}

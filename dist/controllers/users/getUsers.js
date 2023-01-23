@@ -13,8 +13,9 @@ const getUsers = async (_, res) => {
 };
 exports.getUsers = getUsers;
 const getUser = async (req, res) => {
-    if (!req.user)
+    if (!req.user) {
         throw res.status(403).json({ success: false, msg: "User not allowed" });
+    }
     try {
         const user = await index_1.prisma.user.findFirst({
             where: { email: req.user.email },
